@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# Bundle to make sure appraisal and latest gems are installed
+bundle
+
+# Run appraisal to set up each rails/database combination
+appraisal install
+
+# Use the dummy rails app to create and migrate each database
+cd spec/dummy && RAILS_ENV=test BUNDLE_GEMFILE=../../gemfiles/rails_4.1_mysql2_driver.gemfile bundle exec rake db:create db:migrate && cd -
+cd spec/dummy && RAILS_ENV=test BUNDLE_GEMFILE=../../gemfiles/rails_4.1_pg_driver.gemfile bundle exec rake db:create db:migrate && cd -
+cd spec/dummy && RAILS_ENV=test BUNDLE_GEMFILE=../../gemfiles/rails_4.1_sqlite3_driver.gemfile bundle exec rake db:create db:migrate && cd -
